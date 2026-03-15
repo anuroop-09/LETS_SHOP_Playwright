@@ -8,7 +8,7 @@ export default defineConfig({
     fullyParallel: true,
     forbidOnly: !!process.env.CI,
     retries: process.env.CI ? 1 : 1,
-    workers: process.env.CI ? 4 : 5,
+    workers: process.env.CI ? 4 : 1,
     reporter: 'allure-playwright',
     timeout: 2 * 60 * 1000, // timeout for each test is set to 2 mins
     // globalTimeout: 60 * 1000,

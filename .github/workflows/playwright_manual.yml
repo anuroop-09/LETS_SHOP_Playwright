@@ -7,17 +7,38 @@ jobs:
     steps:
       - name: Get code from the repo
         uses: actions/checkout@v6
+
+      - name: Cache Dependencies
+        uses: actions/cache@v5
+        with:
+          path: node_modules
+          key: node-modules-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            node-modules-${{ runner.os }}-
+
+      - name: Cache Playwright Browsers
+        uses: actions/cache@v5
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            playwright-${{ runner.os }}-
+
       - name: Install Dependencies
         run: npm ci
+
       - name: Install Playwright Browsers
-        run: npx playwright install
-      - name: Install Allure Report
-        run: npm install allure-playwright
+        run: npx playwright install --with-deps
+
       - name: Run Playwright Test
-        run: npm run suite
-      - name: Run Allure Report
-        run: npm run generate_report
-      - name: Upload Report
+        run: npx playwright test
+
+      - name: Generate Allure Results
+        run: npx allure generate ./allure-results -o ./allure-report
+        
+      - name: Upload Allure Report
+        if: always()
         uses: actions/upload-artifact@v6
         with:
-          path: allure-report 
+          name: allure_report
+          path: allure-report/

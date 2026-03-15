@@ -6,7 +6,7 @@
   "scripts": {
     "suite": "npx playwright test",
     "report": "npx playwright show-report",
-    "generate_report": "npx allure generate ./allure-results",
+    "generate_report": "npx allure generate ./allure-results -o ./allure-report",
     "show_allure_report": "npx allure open ./allure-report"
   },
   "keywords": [],

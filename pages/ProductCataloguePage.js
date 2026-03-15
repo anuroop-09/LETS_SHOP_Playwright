@@ -26,7 +26,7 @@ export default class ProductCataloguePage extends BaseClass {
                 if(currentCardProductName === productName) {
                     await this.productCards.nth(i).getByRole('button', { name: '   Add To Cart' }).click();
                     console.log(`${productName} product added to Cart`);
-                    await this.validateToastMessage('productAddedCart');
+                    await this.validateToastMessage('productAdded');
                     const productPrice = await this.productCards.nth(i).locator('div.text-muted').textContent();
                     const formattedProductPrice = productPrice.split(" ")[1].trim();
                     productDetails.productName = productName;
