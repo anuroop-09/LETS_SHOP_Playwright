@@ -1,0 +1,22 @@
+{
+    "login_test_users": {
+        "register_user": {
+            "emailid": "logintestuser@mail.com",
+            "password": "Tester@12345"
+        },
+        "unregister_user": {
+            "emailid": "unregistereduser@mail.com",
+            "password": "notregistered@12345"
+        }
+    },
+    "ene_test_users": {
+        "user1": {
+            "emailid": "markusleonardo@mail.com",
+            "password": "Tester@12345"
+        },
+        "all_products_user": {
+            "emailid": "alexaddams@mail.com",
+            "password": "Tester@12345"
+        }
+    }
+}

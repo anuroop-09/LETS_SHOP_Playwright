@@ -1,0 +1,24 @@
+{
+  "name": "playwright_automation_project",
+  "version": "1.0.0",
+  "description": "Automation test suite for Lets Shop Project",
+  "main": "index.js",
+  "scripts": {
+    "suite": "npx playwright test",
+    "report": "npx playwright show-report",
+    "generate_report": "npx allure generate ./allure-results",
+    "show_allure_report": "npx allure open ./allure-report"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "@types/node": "^25.3.5",
+    "allure-playwright": "^3.6.0"
+  },
+  "dependencies": {
+    "dotenv": "^17.3.1"
+  }
+}
