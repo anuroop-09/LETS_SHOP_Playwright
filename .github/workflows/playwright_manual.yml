@@ -20,7 +20,7 @@ jobs:
           path: ~/.npm
           key: npm-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
           restore-keys: |
-            node-modules-${{ runner.os }}-
+            npm-${{ runner.os }}-
 
       - name: Cache Playwright Browsers
         id: playwright-cache
@@ -32,7 +32,6 @@ jobs:
             playwright-${{ runner.os }}-
 
       - name: Install Dependencies
-        if: steps.npm-cache.outputs.cache-hit != 'true'
         run: npm ci
 
       - name: Install Playwright Browsers
