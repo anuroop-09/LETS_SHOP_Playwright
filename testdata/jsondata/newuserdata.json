@@ -1,0 +1,30 @@
+{
+    "user_data1": {
+        "first_name": "Test First",
+        "last_name": "Test Last",
+        "phone_number": "9876543210",
+        "occupation": ["Student", "Engineer", "Doctor", "Scientist"],
+        "gender": ["Male", "Female"],
+        "password": "Test@1234",
+        "confirm_password": "Test@1234"
+    },
+    "user_data2": {
+        "first_name": "Mario",
+        "last_name": "Super",
+        "phone_number": "9999988888",
+        "occupation": "Engineer",
+        "gender": "Female",
+        "password": "Test@1234",
+        "confirm_password": "Test@1234"
+    },
+    "registered_user": {
+        "first_name": "Test User",
+        "last_name": "Registered",
+        "email_id": "testuserregistered@mail.com",
+        "phone_number": "9876543210",
+        "occupation": "Engineer",
+        "gender": "Male",
+        "password": "Test@1234",
+        "confirm_password": "Test@1234"
+    }
+}

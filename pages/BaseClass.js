@@ -11,6 +11,12 @@ export default class BaseClass {
         // TOAST MSGS
         this.loginSuccessMsg = page.getByLabel('Login Successfully');
         this.logoutSuccessMsg = page.getByRole('alert', { name: 'Logout Successfully' });
+        this.registerSuccessMsg = page.getByLabel('Registered Successfully');
+        this.userRegisteredMsg = page.getByLabel('User already exisits with this Email Id!');
+        this.lastNameRequiredMsg = page.getByLabel('Last Name is required!');
+        this.emailInvalidMsg = page.getByLabel('Enter Valid Email!');
+        this.passwordLessCharMsg = page.getByLabel('Password must be 8 Character Long!');
+        this.passwordFormatMsg = page.getByLabel('Please enter 1 Special Character, 1 Capital 1, Numeric 1 Small');
         this.productAddedMsg = page.getByRole('alert', { name: 'Product Added To Cart' });
         this.orderPlacedMsg = page.getByLabel('Order Placed Successfully');
         this.incorrectLoginMsg = page.getByRole('alert', { name: 'Incorrect email or password.' });
@@ -52,7 +58,7 @@ export default class BaseClass {
 
     /**
      * This method is used to validate the toast messages based on actions on the relevant page
-     * @param {String} msgType - loginSuccess, logoutSuccess, productAdded, incorrectLogin, noItemsInCart
+     * @param {String} msgType - loginSuccess, logoutSuccess, registerSuccess, userRegistered, lastNameRequired, emailInvalid, passwordLessChar, passwordFormat, productAdded, incorrectLogin, noItemsInCart
      */
     async validateToastMessage(msgType) {
         try {
@@ -64,6 +70,30 @@ export default class BaseClass {
                 case "logoutSuccess":
                     await expect(this.logoutSuccessMsg).toBeVisible();
                     console.log('Logout Successfully toast message displayed');
+                    break;
+                case "registerSuccess":
+                    await expect(this.registerSuccessMsg).toBeVisible();
+                    console.log('Register Successfully toast message displayed');
+                    break;
+                case "userRegistered":
+                    await expect(this.userRegisteredMsg).toBeVisible();
+                    console.log('User already exists with this Email Id! toast message displayed');
+                    break;
+                case "lastNameRequired":
+                    await expect(this.lastNameRequiredMsg).toBeVisible();
+                    console.log('Last Name is required! toast message displayed');
+                    break;
+                case "emailInvalid":
+                    await expect(this.emailInvalidMsg).toBeVisible();
+                    console.log('Enter Valid Email! toast message displayed');
+                    break;
+                case "passwordLessChar":
+                    await expect(this.passwordLessCharMsg).toBeVisible();
+                    console.log('Password must be 8 Character Long! toast message displayed');
+                    break;
+                case "passwordFormat":
+                    await expect(this.passwordFormatMsg).toBeVisible();
+                    console.log('Password must meet the required format! toast message displayed');
                     break;
                 case "productAdded":
                     await expect(this.productAddedMsg).toBeVisible();
@@ -163,6 +193,27 @@ export default class BaseClass {
     }
 
     /**
+     * This method is used to select an option from dropdown based on the locator and value provided
+     * @param {String} dropdownLoc 
+     * @param {String} optionVal 
+     */
+    async selectOptionFromDropdown(dropdownLoc, selectType = 'value', optionVal) {
+        try {
+            const dropdown = dropdownLoc;
+            if (selectType === 'value') {
+                await dropdown.selectOption(optionVal);
+            } else if (selectType === 'visibleText') {
+                await dropdown.selectOption({ label: optionVal });
+            } else if (selectType === 'index') {
+                await dropdown.selectOption({ index: optionVal });
+            }
+            console.log(`Selected ${optionVal} in dropdown`);
+        } catch (error) {
+            console.error('An error occured in selectOptionFromDropdown', error.message);
+        }
+    }
+
+    /**
      * This method ise used to get the column or index position value
      * @param {String} locatorEle
      * @param {String} fieldName
@@ -193,6 +244,21 @@ export default class BaseClass {
             return array[Math.trunc(Math.random() * array.length)];
         } catch (error) {
             console.error('An error occured in choice', error.message);
+        }
+    }
+
+    /**
+     * This method is used to generate a unique email address based on a base email
+     * @param {String} emailPrefix 
+     */
+    async generateUniqueEmail(emailPrefix) {
+        try {
+            const randomNum = Math.floor(Math.random() * 10000);
+            const uniqueEmail = `${emailPrefix}+${randomNum}@gmail.com`;
+            console.log(`Generated unique email - ${uniqueEmail}`);
+            return uniqueEmail;
+        } catch (error) {
+            console.error('An error occured in generateUniqueEmail', error.message);
         }
     }
 
