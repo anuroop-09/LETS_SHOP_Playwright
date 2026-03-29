@@ -39,6 +39,10 @@ export default class BaseClass {
         // SIGN OUT
         this.signOutBtn = page.getByRole('button', { name: 'Sign Out' });
 
+        // FORGOT PASSWORD
+        this.forgotPasswordLink = page.getByRole('link', { name: 'Forgot password?' });
+        this.enterNewPasswordTitle = page.getByRole('heading', { name: 'Enter New Password' });
+
     }
 
     /**
@@ -193,6 +197,22 @@ export default class BaseClass {
     }
 
     /**
+     * 
+     */
+    async clickOnForgotPasswordLink() {
+        try {
+            await expect(this.forgotPasswordLink).toBeVisible();
+            console.log('Forgot Password link is visible on the page');
+            await this.forgotPasswordLink.click();
+            console.log('Clicked on Forgot Password link');
+            await expect(this.enterNewPasswordTitle).toBeVisible();
+            console.log('Navigated to Enter New Password page successfully');
+        } catch (error) {
+            console.error('An error occured in clickOnForgotPasswordLink', error.message);
+        }
+    }
+
+    /**
      * This method is used to select an option from dropdown based on the locator and value provided
      * @param {String} dropdownLoc 
      * @param {String} optionVal 
@@ -259,6 +279,21 @@ export default class BaseClass {
             return uniqueEmail;
         } catch (error) {
             console.error('An error occured in generateUniqueEmail', error.message);
+        }
+    }
+
+    /**
+     * This method is used to compare the screenshots and verify if there is any visual regression in the application
+     */
+    async compareAndVerifyScreenShot(locator, screenshotName, screenshotOptions = null) {
+        try {
+            let options = { ...screenshotOptions };
+            await this.page.waitForLoadState('networkidle');
+            await this.page.waitForTimeout(2000);
+            await expect(locator).toHaveScreenshot(screenshotName, options);
+            console.log(`Screenshot ${screenshotName} compared successfully`);
+        } catch (error) {
+            console.error('An error occured in compareAndVerifyScreenShot', error.message);
         }
     }
 

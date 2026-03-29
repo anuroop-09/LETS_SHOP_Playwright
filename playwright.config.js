@@ -9,7 +9,10 @@ export default defineConfig({
     forbidOnly: !!process.env.CI,
     retries: process.env.CI ? 1 : 1,
     workers: process.env.CI ? 4 : 1,
-    reporter: 'allure-playwright',
+    reporter: [
+        ['html', { open: 'never' }],
+        ['allure-playwright']
+    ],
     timeout: 2 * 60 * 1000, // timeout for each test is set to 2 mins
     // globalTimeout: 60 * 1000,
     expect: {
@@ -28,6 +31,7 @@ export default defineConfig({
         video: 'retain-on-failure',
         actionTimeout: 20 * 1000,
     },
+    snapshotPathTemplate: 'snapshots/{arg}{ext}',
     
     // Multiple browser configuration
     // projects: [
