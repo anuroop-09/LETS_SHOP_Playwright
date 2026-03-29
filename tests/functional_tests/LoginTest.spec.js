@@ -1,6 +1,6 @@
 import { test } from "@playwright/test";
-import POM_Manager from "../pages/POM_Manager.js";
-import testdata from "../testdata/jsondata/userdata.json";
+import POM_Manager from "../../pages/POM_Manager.js";
+import testdata from "../../testdata/jsondata/userdata.json";
 
 test.describe('Login Page Tests', async () => {
 

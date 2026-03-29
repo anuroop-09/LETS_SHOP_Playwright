@@ -1,8 +1,8 @@
 import { test } from "@playwright/test";
-import POM_Manager from "../pages/POM_Manager.js";
-import testdata from "../testdata/jsondata/userdata.json";
-import productdata from "../testdata/jsondata/productsdata.json";
-import shippingdata from "../testdata/jsondata/shippingdata.json";
+import POM_Manager from "../../pages/POM_Manager.js";
+import testdata from "../../testdata/jsondata/userdata.json";
+import productdata from "../../testdata/jsondata/productsdata.json";
+import shippingdata from "../../testdata/jsondata/shippingdata.json";
 
 
 
