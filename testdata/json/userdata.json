@@ -7,6 +7,13 @@
         "unregister_user": {
             "emailid": "unregistereduser@mail.com",
             "password": "notregistered@12345"
+        },
+        "invalid_user": {
+            "emailid": "invaliduser@mail.com",
+            "password": "invaliduser@12345"
+        },
+        "forgot_password_user": {
+            "emailid": "forgotpassworduser@mail.com"
         }
     },
     "ene_test_users": {

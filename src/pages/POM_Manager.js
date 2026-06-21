@@ -1,4 +1,4 @@
-import BaseClass from "./BaseClass.js";
+import BasePage from "./BasePage.js";
 import CartPage from "./CartPage.js";
 import CheckoutPage from "./CheckoutPage.js";
 import LoginPage from "./LoginPage.js";
@@ -7,11 +7,17 @@ import OrdersPage from "./OrdersPage.js";
 import ProductCataloguePage from "./ProductCataloguePage.js";
 import ProductPage from "./ProductPage.js";
 
+import Navbar from "../page-components/Navbar.js";
+
+import RandomDataUtil from "../utils/RandomDataUtil.js";
+
 export default class POM_Manager {
 
     constructor(page) {
         this.page = page;
-        this.baseClassIns = new BaseClass(page);
+
+        // PAGES
+        this.basePageIns = new BasePage(page);
         this.cartPageIns = new CartPage(page);
         this.checkoutPageIns = new CheckoutPage(page);
         this.loginPageIns = new LoginPage(page);
@@ -19,10 +25,17 @@ export default class POM_Manager {
         this.ordersPageIns = new OrdersPage(page);
         this.productCataloguePageIns = new ProductCataloguePage(page);
         this.productPageIns = new ProductPage(page);
+
+        // PAGE-COMPONENTS
+        this.navbarIns = new Navbar(page);
+
+        // UTILS
+        this.randomDataUtilIns = new RandomDataUtil();
     }
 
-    getBaseClass() {
-        return this.baseClassIns;
+    // PAGES
+    getBasePage() {
+        return this.basePageIns;
     }
 
     getCartPage() {
@@ -53,4 +66,13 @@ export default class POM_Manager {
         return this.productPageIns;
     }
 
+    // PAGE-COMPONENTS
+    getNavbar() {
+        return this.navbarIns;
+    }
+
+    // UTILS
+    getRandomDataUtil() {
+        return this.randomDataUtilIns;
+    }
 }

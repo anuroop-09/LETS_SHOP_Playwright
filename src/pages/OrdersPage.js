@@ -1,10 +1,8 @@
 import { expect } from "@playwright/test";
-import BaseClass from "./BaseClass.js";
 
-export default class OrdersPage extends BaseClass {
+export default class OrdersPage {
 
     constructor(page) {
-        super(page);
         this.page = page;
 
         this.orderedItems = page.locator('//tr[@class="ng-star-inserted"]');

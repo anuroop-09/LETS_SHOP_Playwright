@@ -1,10 +1,8 @@
 import { expect } from "@playwright/test";
-import BaseClass from "./BaseClass.js";
 
-export default class ProductCataloguePage extends BaseClass {
+export default class ProductCataloguePage {
 
     constructor(page) {
-        super(page);
         this.page = page;
 
         this.productCards = page.locator('div.card');
