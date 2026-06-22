@@ -1,4 +1,6 @@
 import { expect } from "@playwright/test";
+import CommonUtil from "../utils/CommonUtil.js";
+import ToastMessage from "../page-components/ToastMessage.js";
 
 export default class ProductCataloguePage {
 
@@ -6,6 +8,10 @@ export default class ProductCataloguePage {
         this.page = page;
 
         this.productCards = page.locator('div.card');
+
+        // CLASSES
+        this.commonutilsIns = new CommonUtil(page);
+        this.toastMessageIns = new ToastMessage(page);
     }
 
     /**
@@ -21,10 +27,10 @@ export default class ProductCataloguePage {
             const productCardsCount = await this.productCards.count();
             for (let i = 0; i < productCardsCount; i++) {
                 const currentCardProductName = await this.productCards.nth(i).locator('css=b').textContent();
-                if(currentCardProductName === productName) {
+                if (currentCardProductName === productName) {
                     await this.productCards.nth(i).getByRole('button', { name: '   Add To Cart' }).click();
                     console.log(`${productName} product added to Cart`);
-                    await this.validateToastMessage('productAdded');
+                    await this.toastMessageIns.validateToastMessage('productAdded');
                     const productPrice = await this.productCards.nth(i).locator('div.text-muted').textContent();
                     const formattedProductPrice = productPrice.split(" ")[1].trim();
                     productDetails.productName = productName;

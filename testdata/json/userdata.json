@@ -25,5 +25,11 @@
             "emailid": "alexaddams@mail.com",
             "password": "Tester@12345"
         }
+    },
+    "cart_test_users": {
+        "user1": {
+            "emailid": "carttestuser@mail.com",
+            "password": "Tester@12345"
+        }
     }
 }
