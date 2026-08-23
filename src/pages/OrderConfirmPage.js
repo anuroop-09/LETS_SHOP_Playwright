@@ -10,6 +10,10 @@ export default class OrderConfirmPage {
         this.orderIds = page.locator('tr td label.ng-star-inserted');
     }
 
+    /**
+     * This method is used to get the Order ID of the ordered product
+     * @returns {String}
+     */
     async getProductOrderedId() {
         try {
             let productOrderId = null;

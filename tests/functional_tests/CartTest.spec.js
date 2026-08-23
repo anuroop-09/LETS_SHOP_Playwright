@@ -1,7 +1,7 @@
 import { test } from '@playwright/test';
-import POM_Manager from '../../src/pages/POM_Manager';
-import testdata from '../../testdata/json/userdata.json';
-import productdata from '../../testdata/json/productsdata.json';
+import POM_Manager from '../../src/pages/POM_Manager.js';
+import testdata from '../../testdata/json/userdata.json' with { type: 'json' };
+import productdata from '../../testdata/json/productsdata.json' with { type: 'json' };
 
 test.describe('Cart Page Tests', () => {
 
@@ -14,10 +14,15 @@ test.describe('Cart Page Tests', () => {
         navbarIns = pomManagerIns.getNavbar();
     });
 
+    test.afterEach(async ({ page }) => {
+        await page.waitForLoadState('networkidle');
+        await page.close();
+    });
+
     test('TC001: Verify whether user able to view the Cart page UI when there are no products added to cart', async ({ page }) => {
-        const { emailid, password } = testdata.cart_test_users.user1;
+        const { emailId, password } = testdata.cart_test_users.user1;
         await loginPageIns.launchApplication();
-        await loginPageIns.loginToApplication({ emailid, password });
+        await loginPageIns.loginToApplication({ emailId, password });
         await navbarIns.navigateToCart();
         await cartPageIns.verifyCartPageUI();
         await navbarIns.logoutFromApplication();
@@ -27,9 +32,9 @@ test.describe('Cart Page Tests', () => {
         const productCataloguePageIns = pomManagerIns.getProductCataloguePage();
         const randomDataUtilIns = pomManagerIns.getRandomDataUtil();
         const productName = await randomDataUtilIns.choice(productdata.all_products);
-        const { emailid, password } = testdata.cart_test_users.user1;
+        const { emailId, password } = testdata.cart_test_users.user1;
         await loginPageIns.launchApplication();
-        await loginPageIns.loginToApplication({ emailid, password });
+        await loginPageIns.loginToApplication({ emailId, password });
         const productDetails = await productCataloguePageIns.addProductToCartByName(productName);
         await navbarIns.navigateToCart();
         await cartPageIns.verifyCartPageUI(true, productDetails);
@@ -37,8 +42,4 @@ test.describe('Cart Page Tests', () => {
         await navbarIns.logoutFromApplication();
     });
 
-    test.afterEach(async ({ page }) => {
-        await page.waitForLoadState('networkidle');
-        await page.close();
-    });
 });

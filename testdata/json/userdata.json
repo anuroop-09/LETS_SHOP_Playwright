@@ -1,34 +1,54 @@
 {
     "login_test_users": {
         "register_user": {
-            "emailid": "logintestuser@mail.com",
+            "emailId": "logintestuser@mail.com",
             "password": "Tester@12345"
         },
         "unregister_user": {
-            "emailid": "unregistereduser@mail.com",
+            "emailId": "unregistereduser@mail.com",
             "password": "notregistered@12345"
         },
         "invalid_user": {
-            "emailid": "invaliduser@mail.com",
+            "emailId": "invaliduser@mail.com",
             "password": "invaliduser@12345"
         },
         "forgot_password_user": {
-            "emailid": "forgotpassworduser@mail.com"
+            "emailId": "forgotpassworduser@mail.com"
         }
     },
     "ene_test_users": {
         "user1": {
-            "emailid": "markusleonardo@mail.com",
+            "emailId": "markusleonardo@mail.com",
+            "password": "Tester@12345"
+        },
+        "user2": {
+            "emailId": "steveadams@mail.com",
             "password": "Tester@12345"
         },
         "all_products_user": {
-            "emailid": "alexaddams@mail.com",
+            "emailId": "alexaddams@mail.com",
             "password": "Tester@12345"
         }
     },
     "cart_test_users": {
         "user1": {
-            "emailid": "carttestuser@mail.com",
+            "emailId": "carttestuser@mail.com",
+            "password": "Tester@12345"
+        }
+    },
+    "product_test_users": {
+        "user1": {
+            "emailId": "productpageuser@mail.com",
+            "password": "Tester@12345"
+        }
+    },
+    "orders_test_users": {
+        "order_placed_user": {
+            "emailId": "orderplaceduser@mail.com",
+            "password": "Tester@12345"
+        },
+        "order_not_placed_user": {
+            "emailId": "ordernotplaceduser@mail.com",
             "password": "Tester@12345"
         }
     }

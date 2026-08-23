@@ -1,140 +1,107 @@
-// import { test } from "@playwright/test";
-// import POM_Manager from "../../pages/POM_Manager.js";
-// import newuserdata from "../../testdata/jsondata/newuserdata.json";
+import { test, expect } from "@playwright/test";
+import POM_Manager from "../../src/pages/POM_Manager.js";
+import testdata from "../../testdata/json/newuserdata.json" with { type: "json" };
 
-// test.describe('Register Tests', async () => {
+test.describe('Register Page Tests', () => {
 
-//     test('Verify whether user able to create a new user and able to login to the application', async ({ page }) => {
-//         const pomManager = new POM_Manager(page);
-//         const loginPageIns = pomManager.getLoginPage();
+    let pomManagerIns, loginPageIns, randomDataUtilIns, pageFix;
 
-//         const userdata = {
-//             firstName: newuserdata.user_data1.first_name,
-//             lastName: newuserdata.user_data1.last_name,
-//             email: await loginPageIns.generateUniqueEmail("testuserpw"),
-//             phoneNumber: newuserdata.user_data1.phone_number,
-//             occupation: await loginPageIns.choice(newuserdata.user_data1.occupation),
-//             gender: await loginPageIns.choice(newuserdata.user_data1.gender),
-//             password: newuserdata.user_data1.password,
-//             confirmPassword: newuserdata.user_data1.password,
-//             isUnderAge: true
-//         };
+    test.beforeEach(async ({ page }) => {
+        pageFix = page;
+        pomManagerIns = new POM_Manager(page);
+        loginPageIns = pomManagerIns.getLoginPage();
+        randomDataUtilIns = pomManagerIns.getRandomDataUtil();
+    });
 
-//         await loginPageIns.launchApplication();
-//         await loginPageIns.navigateToRegistrationPage();
-//         await loginPageIns.handleRegistrationForm(userdata);
-//         await loginPageIns.verifyAccountCreationPopup();
-//         await loginPageIns.navigateToLoginPageFromAccountCreated();
-//         await loginPageIns.loginToApplication(userdata.email, userdata.password);
-//         await loginPageIns.logoutFromApplication();
-//     });
+    test.afterEach(async () => {
+        await pageFix.waitForLoadState('networkidle');
+        await pageFix.close();
+    });
 
-//     test('Verify whether user able to create a user which is already exists', async ({ page }) => {
-//         const pomManager = new POM_Manager(page);
-//         const loginPageIns = pomManager.getLoginPage();
+    test('TC001: Verify whether user able to navigate and view the User Registration page', async () => {
+        await loginPageIns.launchApplication();
+        await loginPageIns.clickOnRegisterBtn();
+        await loginPageIns.verifyRegisterFormUI();
 
-//         const userdata = {
-//             firstName: newuserdata.registered_user.first_name,
-//             lastName: newuserdata.registered_user.last_name,
-//             email: newuserdata.registered_user.email_id,
-//             phoneNumber: newuserdata.registered_user.phone_number,
-//             occupation: newuserdata.registered_user.occupation,
-//             gender: newuserdata.registered_user.gender,
-//             password: newuserdata.registered_user.password,
-//             confirmPassword: newuserdata.registered_user.password,
-//             isUnderAge: true,
-//             msgType: 'userRegistered'
-//         };
+    });
 
-//         await loginPageIns.launchApplication();
-//         await loginPageIns.navigateToRegistrationPage();
-//         await loginPageIns.handleRegistrationForm(userdata);
-//     });
+    test('TC002: Verify whether user able to navigate to Register popup with right actions links and buttons', async () => {
+        await loginPageIns.launchApplication();
+        await loginPageIns.clickOnRegisterBtn();
+        await pageFix.goBack();
+        await loginPageIns.navigateToRegistrationPage();
+    });
 
-//     test('Verify whether user able to create a new user without last name', async ({ page }) => {
-//         const pomManager = new POM_Manager(page);
-//         const loginPageIns = pomManager.getLoginPage();
+    test('TC003: Verify whether user able to create a new account and able to login to application with the new account', async () => {
+        const navbarIns = pomManagerIns.getNavbar();
 
-//         const userdata = {
-//             firstName: newuserdata.user_data1.first_name,
-//             email: await loginPageIns.generateUniqueEmail("testuserpw"),
-//             phoneNumber: newuserdata.user_data1.phone_number,
-//             occupation: await loginPageIns.choice(newuserdata.user_data1.occupation),
-//             gender: await loginPageIns.choice(newuserdata.user_data1.gender),
-//             password: newuserdata.user_data1.password,
-//             confirmPassword: newuserdata.user_data1.password,
-//             isUnderAge: true,
-//             msgType: 'lastNameRequired'
-//         };
+        const data = testdata.user_data1;
+        const emailId = await randomDataUtilIns.generateUniqueEmail(data.email_prefix)
 
-//         await loginPageIns.launchApplication();
-//         await loginPageIns.navigateToRegistrationPage();
-//         await loginPageIns.handleRegistrationForm(userdata);
-//     });
+        await loginPageIns.launchApplication();
+        await loginPageIns.clickOnRegisterBtn();
+        await loginPageIns.handleRegistrationForm({
+            firstName: data.first_name,
+            lastName: data.last_name,
+            emailId,
+            phoneNumber: data.phone_number,
+            occupation: await randomDataUtilIns.choice(data.occupation),
+            password: data.password,
+            confirmPassword: data.confirm_password,
+            isUnderAge: true
+        });
+        await loginPageIns.verifyAccountCreationPopup();
+        await loginPageIns.navigateToLoginPageFromAccountCreated();
+        await loginPageIns.loginToApplication({ emailId, password: data.password });
+        await navbarIns.logoutFromApplication();
+    });
 
-//     test('Verify whether user able to create a new user with invalid email', async ({ page }) => {
-//         const pomManager = new POM_Manager(page);
-//         const loginPageIns = pomManager.getLoginPage();
+    test('TC004: Verify whether user able to create a new account with and existing user email address', async () => {
+        const data = testdata.registered_user;
 
-//         const userdata = {
-//             firstName: newuserdata.user_data1.first_name,
-//             lastName: newuserdata.user_data1.last_name,
-//             email: "invalid@email", // Using an invalid email format
-//             phoneNumber: newuserdata.user_data1.phone_number,
-//             occupation: await loginPageIns.choice(newuserdata.user_data1.occupation),
-//             gender: await loginPageIns.choice(newuserdata.user_data1.gender),
-//             password: newuserdata.user_data1.password,
-//             confirmPassword: newuserdata.user_data1.password,
-//             isUnderAge: true,
-//             msgType: 'emailInvalid'
-//         };
+        await loginPageIns.launchApplication();
+        await loginPageIns.clickOnRegisterBtn();
+        await loginPageIns.handleRegistrationForm({
+            firstName: data.first_name,
+            lastName: data.last_name,
+            emailId: data.email_id,
+            phoneNumber: data.phone_number,
+            occupation: data.occupation,
+            password: data.password,
+            confirmPassword: data.confirm_password,
+            isUnderAge: true,
+            msgType: 'userRegistered'
+        });
+    });
 
-//         await loginPageIns.launchApplication();
-//         await loginPageIns.navigateToRegistrationPage();
-//         await loginPageIns.handleRegistrationForm(userdata);
-//     });
+    test('TC005: Verify whether user able to validate field warnings on Register page when user is trying to reset the password with providing details', async () => {
+        await loginPageIns.launchApplication();
+        await loginPageIns.clickOnRegisterBtn();
+        await loginPageIns.handleRegistrationForm({ verifyToastMsg: false });
+        await loginPageIns.verifyFieldWarningsOfRegisterForm();
+        await loginPageIns.handleRegistrationForm({
+            firstName: 'ab',
+            emailId: 'testemail.com',
+            phoneNumber: 'test',
+            password: 'test@1234',
+            confirmPassword: 'abc@1234',
+            isUnderAge: true,
+            verifyToastMsg: false 
+        });
+        await loginPageIns.verifyFieldWarningsOfRegisterForm({
+            firstName: false, 
+            firstNameInsufficentChar: true, 
+            email: false, 
+            emailInvalid: true, 
+            phoneNumber: false, 
+            phoneNumberDigits: true, 
+            phoneNumberLength: true, 
+            password: false, 
+            confirmPassword: false, 
+            confirmPasswordMismatch: true, 
+            ageConfirmation: false
+        });
 
-//     test('Verify whether user able to create a new user with password less than 8 characters', async ({ page }) => {
-//         const pomManager = new POM_Manager(page);
-//         const loginPageIns = pomManager.getLoginPage();
+    });
 
-//         const userdata = {
-//             firstName: newuserdata.user_data1.first_name,
-//             lastName: newuserdata.user_data1.last_name,
-//             email: await loginPageIns.generateUniqueEmail("testuserpw"),
-//             phoneNumber: newuserdata.user_data1.phone_number,
-//             occupation: await loginPageIns.choice(newuserdata.user_data1.occupation),
-//             gender: await loginPageIns.choice(newuserdata.user_data1.gender),
-//             password: "1234567", // Using a password with less than 8 characters
-//             confirmPassword: "1234567",
-//             isUnderAge: true,
-//             msgType: 'passwordLessChar'
-//         };
-
-//         await loginPageIns.launchApplication();
-//         await loginPageIns.navigateToRegistrationPage();
-//         await loginPageIns.handleRegistrationForm(userdata);
-//     });
-
-//     test('Verify whether user able to create a new user with invalid password format', async ({ page }) => {
-//         const pomManager = new POM_Manager(page);
-//         const loginPageIns = pomManager.getLoginPage();
-
-//         const userdata = {
-//             firstName: newuserdata.user_data1.first_name,
-//             lastName: newuserdata.user_data1.last_name,
-//             email: await loginPageIns.generateUniqueEmail("testuserpw"),
-//             phoneNumber: newuserdata.user_data1.phone_number,
-//             occupation: await loginPageIns.choice(newuserdata.user_data1.occupation),
-//             gender: await loginPageIns.choice(newuserdata.user_data1.gender),
-//             password: "testuser123", // Using a password that does not meet the required format
-//             confirmPassword: "testuser123",
-//             isUnderAge: true,
-//             msgType: 'passwordFormat'
-//         };
-
-//         await loginPageIns.launchApplication();
-//         await loginPageIns.navigateToRegistrationPage();
-//         await loginPageIns.handleRegistrationForm(userdata);
-//     });
-// });
+})

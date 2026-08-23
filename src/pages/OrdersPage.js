@@ -1,11 +1,48 @@
 import { expect } from "@playwright/test";
+import CommonUtil from "../utils/CommonUtil";
 
 export default class OrdersPage {
 
     constructor(page) {
         this.page = page;
 
+        this.goBackToShopBtn = page.getByRole('button', { name: 'Go Back To Shop' });
+        this.goBackToCartBtn = page.getByRole('button', { name: 'Go Back To Cart' });
+        this.noOrdersText = page.getByText('You have No Orders to show at this time. Please Visit Back Us');
         this.orderedItems = page.locator('//tr[@class="ng-star-inserted"]');
+
+        this.commonUtilIns = new CommonUtil(page);
+    }
+
+    /**
+     * This method is used to verify the Orders page UI when there are no orders placed by the user
+     */
+    async verifyOrdersPageUIWhenNoOrders() {
+        try {
+            await expect(this.noOrdersText).toBeVisible();
+            console.log('Orders page is displayed and able to see No orders to show message');
+            await expect(this.goBackToShopBtn).toBeVisible();
+            console.log('Go Back To Shop button is visible on the page');
+            await expect(this.goBackToCartBtn).toBeVisible();
+            console.log('Go Back To Cart button is visible on the page');
+        } catch (error) {
+            console.error('An error occured in verifyOrdersPageUIWhenNoOrders', error.message);
+        }
+    }
+
+
+    /**
+     * This method is used to click on Go Back To Shop button from Orders page and navigate back to Products Catalogue page
+     */
+    async clickOnGoBackToShopBtn() {
+        try {
+            await expect(this.goBackToShopBtn).toBeVisible();
+            console.log('Go Back To Shop button is visible on the page');
+            await this.goBackToShopBtn.click();
+            console.log('Clicked on Go Back To Shop button');
+        } catch (error) {
+            console.error('An error occured in clickOnGoBackToShopBtn', error.message);
+        }
     }
 
     /**
@@ -18,7 +55,7 @@ export default class OrdersPage {
             await expect(this.orderedItems.first()).toBeVisible();
             console.log('Ordered Items are available in the Orders table');
             const ordersListCount = await this.orderedItems.count();
-            const productNameIndex = await this.getColIndex('tr th[scope="col"]', 'Name');
+            const productNameIndex = await this.commonUtilIns.getColIndex('tr th[scope="col"]', 'Name');
             let productName = null;
 
             for (let i = 0; i < ordersListCount; i++) {
@@ -43,6 +80,8 @@ export default class OrdersPage {
     /**
      * This method is used to verify the Ordered product from Orders table
      * @param {Object} productDetails { productName: value, productPrice:value }
+     * @param {String} productDetails.productName
+     * @param {String} productDetails.productPrice
      */
     async verifyOrderedItemFromOrdersTable(productDetails = null) {
         try {
@@ -52,8 +91,8 @@ export default class OrdersPage {
             await expect(this.orderedItems.first()).toBeVisible();
             console.log('Ordered Items are available in the Orders table');
             const ordersListCount = await this.orderedItems.count();
-            const productNameIndex = await this.getColIndex('tr th[scope="col"]', 'Name');
-            const productPriceIndex = await this.getColIndex('tr th[scope="col"]', 'Price');
+            const productNameIndex = await this.commonUtilIns.getColIndex('tr th[scope="col"]', 'Name');
+            const productPriceIndex = await this.commonUtilIns.getColIndex('tr th[scope="col"]', 'Price');
 
             for (let i = 0; i < ordersListCount; i++) {
                 const currentProductName = await this.orderedItems.nth(i).locator(`xpath=//td[${productNameIndex - 1}]`).textContent();

@@ -2,6 +2,7 @@
     "user_data1": {
         "first_name": "Test First",
         "last_name": "Test Last",
+        "email_prefix": "testreguser1",
         "phone_number": "9876543210",
         "occupation": ["Student", "Engineer", "Doctor", "Scientist"],
         "gender": ["Male", "Female"],
@@ -11,6 +12,7 @@
     "user_data2": {
         "first_name": "Mario",
         "last_name": "Super",
+        "email_prefix": "testreguser2",
         "phone_number": "9999988888",
         "occupation": "Engineer",
         "gender": "Female",

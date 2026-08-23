@@ -19,6 +19,7 @@ export default class Navbar {
         this.cartBtn = page.getByRole('button', { name: '   Cart' });
         this.noProductsInCartText = page.getByRole('heading', { name: 'No Products in Your Cart !' });
         this.cartTitleHeading = page.getByRole('heading', { name: 'My Cart' });
+        this.cartCountBadge = page.locator('button[routerlink="/dashboard/cart"] label');
 
         // SIGN OUT
         this.signOutBtn = page.getByRole('button', { name: 'Sign Out' });
@@ -76,13 +77,32 @@ export default class Navbar {
             if (isCartEmpty) {
                 await expect(this.noProductsInCartText).toBeVisible();
                 console.log('Navigated to Cart page and able to see No products in Cart messgae');
-                await this.validateToastMessage('noItemsInCart');
+                await this.toastMessageIns.validateToastMessage('noItemsInCart');
             } else {
                 await expect(this.cartTitleHeading).toBeVisible();
                 console.log('Navigated to Cart page');
             }
         } catch (error) {
             console.error('An error occured in navigateToCart', error.message);
+        }
+    }
+
+    /**
+     * This method is used to verify the count of products added to Cart
+     * @param {String} expectedCount 
+     */
+    async verifyCountFromCartLink(expectedCount = null) {
+        try {
+            await expect(this.cartCountBadge).toBeVisible();
+            console.log('Cart count badge is visible on the page');
+            const actualCount = await this.cartCountBadge.textContent();
+            if (actualCount == expectedCount) {
+                console.log(`Cart count is verified successfully. Expected Count: ${expectedCount} | Actual Count: ${actualCount}`);
+            } else {
+                throw new Error(`Cart count is not matching. Expected Count: ${expectedCount} | Actual Count: ${actualCount}`);
+            }
+        } catch (error) {
+            console.error('An error occured in verifyCountFromCart', error.message);
         }
     }
 

@@ -8,7 +8,7 @@ export default defineConfig({
     fullyParallel: true,
     forbidOnly: !!process.env.CI,
     retries: process.env.CI ? 1 : 1,
-    workers: process.env.CI ? 4 : 1,
+    workers: process.env.CI ? 4 : 4,
     reporter: [
         ['html', { open: 'never' }],
         ['allure-playwright']
@@ -29,7 +29,7 @@ export default defineConfig({
         trace: 'retain-on-failure',
         screenshot: 'only-on-failure',
         video: 'retain-on-failure',
-        actionTimeout: 20 * 1000,
+        actionTimeout: 20 * 1000
     },
     snapshotPathTemplate: 'snapshots/{arg}{ext}',
     

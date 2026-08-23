@@ -68,6 +68,8 @@ export default class CartPage {
     /**
      * This method is used to verify the specific product is present in My Cart list in Cart page
      * @param {Object} productDetails { productName: value, productPrice: value }
+     * @param {String} productDetails.productName
+     * @param {String} productDetails.productPrice
      */
     async verifyProductInCartList(productDetails = null) {
         try {
@@ -140,6 +142,20 @@ export default class CartPage {
             console.log('Clicked on Checkout button in Cart page');
         } catch (error) {
             console.error('An error occured in proceedToCheckout', error.message);
+        }
+    }
+
+    /**
+     * This method is used to handle 'Continue Shopping' button in the Cart page
+     */
+    async clickOnContinueShoppingBtn() {
+        try {
+            await expect(this.continueShoppingBtn).toBeVisible();
+            console.log('Continue Shopping button is visible in Cart page');
+            await this.continueShoppingBtn.click();
+            console.log('Clicked on Continue Shopping button in Cart page');
+        } catch (error) {
+            console.error('An error occured in clickOnContinueShoppingBtn', error.message);
         }
     }
 }

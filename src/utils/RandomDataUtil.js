@@ -1,8 +1,5 @@
 export default class RandomDataUtil {
 
-    // constructor() {
-    // }
-
     /**
      * This method is used to generate a unique email address based on a base email
      * @param {String} emailPrefix 

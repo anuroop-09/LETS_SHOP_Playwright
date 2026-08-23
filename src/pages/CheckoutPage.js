@@ -19,6 +19,8 @@ export default class CheckoutPage {
     /**
      * This method is used to verify the specific product is present in Checkout List in Checkout page
      * @param {Object} productDetails { productName: value, productPrice: value }
+     * @param {String} productDetails.productName
+     * @param {String} productDetails.productPrice
      */
     async verifyProductInCheckoutList(productDetails = null) {
         try {
